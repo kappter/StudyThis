@@ -20,6 +20,51 @@ let correctTypedChars = 0;
 let startTime = null;
 let timerInterval = null;
 const testDuration = 60; // seconds
+const fallingWordDiv = document.getElementById('fallingWord');
+const definitionDiv = document.getElementById('definitionDisplay');
+const fallingContainer = document.getElementById('fallingWordContainer');
+
+const words = [
+  { word: 'Algorithm', definition: 'A set of rules to solve a problem' },
+  { word: 'Loop', definition: 'A structure that repeats code' },
+  { word: 'Variable', definition: 'A storage location in memory' }
+];
+
+let currentIndex = 0;
+
+function createUnderscores(word) {
+  return word[0] + '_'.repeat(word.length - 1);
+}
+
+function animateFallingWord() {
+  let pos = 0;
+  const wordObj = words[currentIndex];
+  fallingWordDiv.textContent = createUnderscores(wordObj.word);
+  definitionDiv.textContent = wordObj.definition;
+  
+  const containerHeight = fallingContainer.clientHeight;
+  const animationSpeed = 2; // pixels per 20ms
+  
+  function fall() {
+    pos += animationSpeed;
+    fallingWordDiv.style.top = pos + 'px';
+    if (pos < containerHeight - 40) { // 40 for approx height of text
+      requestAnimationFrame(fall);
+    } else {
+      // Reset for next word
+      pos = 0;
+      currentIndex = (currentIndex + 1) % words.length;
+      fallingWordDiv.style.top = pos + 'px';
+      fallingWordDiv.textContent = createUnderscores(words[currentIndex].word);
+      definitionDiv.textContent = words[currentIndex].definition;
+      setTimeout(() => requestAnimationFrame(fall), 1000);
+    }
+  }
+  fall();
+}
+
+// Start animation
+animateFallingWord();
 
 function startTypingTest() {
   typingTestSection.style.display = 'block';

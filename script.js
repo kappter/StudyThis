@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Reset input
       typingInput.value = '';
       lastTypedLength = 0;
-      
+
       currentWordIndex++;
       if (currentWordIndex >= words.length) {
         endTypingTest();
@@ -166,7 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalAccuracy = accuracyDisplay.textContent.split(' ')[1];
 
     testReport.style.display = 'block';
-    testReport.textContent = `Final Words Per Minute: ${finalWPM}\nFinal Accuracy: ${finalAccuracy}\nWords Typed: ${currentWordIndex} of ${words.length}`;
+    testReport.textContent = `Final Words Per Minute: ${finalWPM}
+Final Accuracy: ${finalAccuracy}
+Words Typed: ${currentWordIndex} of ${words.length}`;
   }
 
   // Initialize start button

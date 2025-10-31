@@ -33,6 +33,19 @@
       </div>
 
       <button id="confirmStart" class="confirm-btn" disabled>Start Session</button>
+      <section id="typingTest" class="typing-test" style="display:none;">
+  <h2>Typing Test</h2>
+  <div id="wordDisplay" class="word-display">Loading...</div>
+  <input type="text" id="typingInput" autocomplete="off" spellcheck="false" placeholder="Type here..." />
+  <div class="stats">
+    <span id="wpmDisplay">WPM: 0</span>
+    <span id="accuracyDisplay">Accuracy: 100%</span>
+    <span id="timeDisplay">Time Left: 60s</span>
+  </div>
+  <button id="endTestBtn" style="display:none;">Finish Test</button>
+  <div id="testReport" class="test-report" style="display:none;"></div>
+</section>
+
     </main>
   </div>
 

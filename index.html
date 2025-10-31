@@ -33,19 +33,32 @@
       </div>
 
       <button id="confirmStart" class="confirm-btn" disabled>Start Session</button>
-      <section id="typingTest" class="typing-test" style="display:none;">
-  <h2>Typing Test</h2>
-  <div id="wordDisplay" class="word-display">Loading...</div>
-  <input type="text" id="typingInput" autocomplete="off" spellcheck="false" placeholder="Type here..." />
-  <div class="stats">
-    <span id="wpmDisplay">WPM: 0</span>
-    <span id="accuracyDisplay">Accuracy: 100%</span>
-    <span id="timeDisplay">Time Left: 60s</span>
-  </div>
-  <button id="endTestBtn" style="display:none;">Finish Test</button>
-  <div id="testReport" class="test-report" style="display:none;"></div>
-</section>
 
+      <!-- Typing test section, initially hidden -->
+      <section id="typingTest" class="typing-test" style="display:none;">
+        <h2>Typing Test</h2>
+
+        <!-- Falling word container -->
+        <div id="fallingWordContainer" style="position: relative; height: 350px; width: 400px; background: #16213e; border-radius: 12px; margin: auto;">
+          <div id="fallingWord" style="position: absolute; top: 0; font-size: 3rem; color: #bbe1fa; user-select: none;">Loading...</div>
+        </div>
+
+        <!-- Definition display -->
+        <div id="definitionDisplay" style="margin-top: 10px; font-size: 1.2rem; color: #eee; text-align:center;">
+          Definition will appear here.
+        </div>
+
+        <!-- Typing input and stats -->
+        <input type="text" id="typingInput" autocomplete="off" spellcheck="false" placeholder="Type here..." />
+        <div class="stats">
+          <span id="wpmDisplay">WPM: 0</span>
+          <span id="accuracyDisplay">Accuracy: 100%</span>
+          <span id="timeDisplay">Time Left: 60s</span>
+        </div>
+
+        <button id="endTestBtn" style="display:none;">Finish Test</button>
+        <div id="testReport" class="test-report" style="display:none;"></div>
+      </section>
     </main>
   </div>
 

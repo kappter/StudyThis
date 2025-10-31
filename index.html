@@ -1,67 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>KappType Start Interface</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KappType Start Interface</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="app-container">
-    <header>
-      <h1>KappType</h1>
-      <p>Choose your mode and upload vocabulary files to start</p>
-    </header>
+<div class="app-container">
+<header>
+<h1>KappType</h1>
+<p>Choose your mode and upload vocabulary files to start</p>
+</header>
+<main class="start-panel">
+<div class="mode-selection">
+<button id="typingBtn" type="button" class="mode-btn blue">Study by Typing</button>
+<button id="quizBtn" type="button" class="mode-btn purple">Study by Quiz</button>
+</div>
+<div class="file-uploads">
+<label for="fileUpload1">Primary Vocabulary File (CSV)</label>
+<input type="file" id="fileUpload1" accept=".csv" />
+<label for="fileUpload2">Secondary Vocabulary File (Optional)</label>
+<input type="file" id="fileUpload2" accept=".csv" />
+</div>
+<div id="vocabPreview" class="vocab-preview">
+<p>Vocabulary preview will appear here after upload.</p>
+</div>
+<button id="confirmStart" class="confirm-btn" disabled>Start Session</button>
 
-    <main class="start-panel">
-      <div class="mode-selection">
-        <button id="typingBtn" class="mode-btn blue">Study by Typing</button>
-        <button id="quizBtn" class="mode-btn purple">Study by Quiz</button>
-      </div>
-
-      <div class="file-uploads">
-        <label for="fileUpload1">Primary Vocabulary File (CSV)</label>
-        <input type="file" id="fileUpload1" accept=".csv" />
-
-        <label for="fileUpload2">Secondary Vocabulary File (Optional)</label>
-        <input type="file" id="fileUpload2" accept=".csv" />
-      </div>
-
-      <div id="vocabPreview" class="vocab-preview">
-        <p>Vocabulary preview will appear here after upload.</p>
-      </div>
-
-      <button id="confirmStart" class="confirm-btn" disabled>Start Session</button>
-
-      <!-- Typing test section, initially hidden -->
-      <section id="typingTest" class="typing-test" style="display:none;">
-        <h2>Typing Test</h2>
-
-        <!-- Falling word container -->
-        <div id="fallingWordContainer" class="falling-word-container">
-          <div id="fallingWord" class="falling-word">Loading...</div>
-        </div>
-
-        <!-- Definition display -->
-        <div id="definitionDisplay" class="definition-display">
-          Definition will appear here.
-        </div>
-
-        <!-- Typing input and stats -->
-        <input type="text" id="typingInput" autocomplete="off" spellcheck="false" placeholder="Type here..." />
-        <div class="stats">
-          <span id="wpmDisplay">WPM: 0</span>
-          <span id="accuracyDisplay">Accuracy: 100%</span>
-          <span id="timeDisplay">Time Left: 60s</span>
-        </div>
-
-        <button id="endTestBtn" style="display:none;">Finish Test</button>
-        <div id="testReport" class="test-report" style="display:none;"></div>
-      </section>
-    </main>
-  </div>
-
-  <script src="script.js"></script>
+<!-- Typing test section, initially hidden -->
+<section id="typingTest" class="typing-test" style="display:none;">
+<h2>Typing Test</h2>
+<!-- Falling word container -->
+<div id="fallingWordContainer" class="falling-word-container">
+<div id="fallingWord" class="falling-word">Loading...</div>
+</div>
+<!-- Definition display -->
+<div id="definitionDisplay" class="definition-display">
+Definition will appear here.
+</div>
+<!-- Typing input and stats -->
+<input type="text" id="typingInput" autocomplete="off" spellcheck="false" placeholder="Type here..." />
+<div class="stats">
+<span id="wpmDisplay">WPM: 0</span>
+<span id="accuracyDisplay">Accuracy: 100%</span>
+<span id="timeDisplay">Time Left: 60s</span>
+</div>
+<button id="endTestBtn" style="display:none;">Finish Test</button>
+<div id="testReport" class="test-report" style="display:none;"></div>
+</section>
+</main>
+</div>
+<script src="script.js"></script>
 </body>
 </html>

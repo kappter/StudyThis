@@ -1,20 +1,41 @@
-<!-- Start and Mode Selection Modal -->
-<div id="startModal" class="modal-overlay">
-  <div class="modal-container">
-    <h2 class="modal-title">Select Study Mode</h2>
-    <div class="mode-buttons">
-      <button id="typingBtn" class="mode-btn">Study by Typing</button>
-      <button id="quizBtn" class="mode-btn">Study by Quiz</button>
-    </div>
-    <div class="vocab-preview" id="vocabPreview">
-      <p>No vocabulary loaded yet.</p>
-    </div>
-    <div class="file-upload-container">
-      <label for="fileUpload1" class="file-label">Primary Vocabulary File (CSV):</label>
-      <input type="file" id="fileUpload1" accept=".csv" />
-      <label for="fileUpload2" class="file-label">Secondary Vocabulary File (CSV) (Optional):</label>
-      <input type="file" id="fileUpload2" accept=".csv" />
-    </div>
-    <button id="confirmStart" class="confirm-btn" disabled>Start Session</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KappType Start Interface</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>KappType</h1>
+      <p>Choose your mode and upload vocabulary files to start</p>
+    </header>
+
+    <main class="start-panel">
+      <div class="mode-selection">
+        <button id="typingBtn" class="mode-btn blue">Study by Typing</button>
+        <button id="quizBtn" class="mode-btn purple">Study by Quiz</button>
+      </div>
+
+      <div class="file-uploads">
+        <label for="fileUpload1">Primary Vocabulary File (CSV)</label>
+        <input type="file" id="fileUpload1" accept=".csv" />
+
+        <label for="fileUpload2">Secondary Vocabulary File (Optional)</label>
+        <input type="file" id="fileUpload2" accept=".csv" />
+      </div>
+
+      <div id="vocabPreview" class="vocab-preview">
+        <p>Vocabulary preview will appear here after upload.</p>
+      </div>
+
+      <button id="confirmStart" class="confirm-btn" disabled>Start Session</button>
+    </main>
   </div>
-</div>
+
+  <script src="script.js"></script>
+</body>
+</html>

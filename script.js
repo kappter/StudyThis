@@ -1,3 +1,33 @@
+// Lock navigation and handle modal interactions
+document.getElementById('typingBtn').addEventListener('click', () => {
+  loadVocabPreview('typing');
+});
+document.getElementById('quizBtn').addEventListener('click', () => {
+  loadVocabPreview('quiz');
+});
+
+// Load vocabulary preview, validate files, etc.
+function loadVocabPreview(mode) {
+  // Parse uploaded files or default vocab
+  // Show a preview of the first few entries
+  document.getElementById('vocabPreview').innerHTML = 'Sample terms...';
+  document.getElementById('confirmStart').disabled = false;
+}
+
+// Finalize and start session
+document.getElementById('confirmStart').addEventListener('click', () => {
+  // Save session state
+  // Remove modal
+  document.getElementById('startModal').style.display = 'none';
+  // Lock navigation
+  history.pushState(null, null, location.href);
+  window.onbeforeunload = () => 'Are you sure you want to leave? Progress will be lost.';
+});
+window.onpopstate = () => {
+  // Prevent going back
+  history.go(1);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const startModal = document.getElementById('startModal');
   const typingBtn = document.getElementById('typingBtn');

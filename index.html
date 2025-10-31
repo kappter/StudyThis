@@ -1,0 +1,20 @@
+<!-- Start and Mode Selection Modal -->
+<div id="startModal" class="modal-overlay">
+  <div class="modal-container">
+    <h2 class="modal-title">Select Study Mode</h2>
+    <div class="mode-buttons">
+      <button id="typingBtn" class="mode-btn">Study by Typing</button>
+      <button id="quizBtn" class="mode-btn">Study by Quiz</button>
+    </div>
+    <div class="vocab-preview" id="vocabPreview">
+      <p>No vocabulary loaded yet.</p>
+    </div>
+    <div class="file-upload-container">
+      <label for="fileUpload1" class="file-label">Primary Vocabulary File (CSV):</label>
+      <input type="file" id="fileUpload1" accept=".csv" />
+      <label for="fileUpload2" class="file-label">Secondary Vocabulary File (CSV) (Optional):</label>
+      <input type="file" id="fileUpload2" accept=".csv" />
+    </div>
+    <button id="confirmStart" class="confirm-btn" disabled>Start Session</button>
+  </div>
+</div>

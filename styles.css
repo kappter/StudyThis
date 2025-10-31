@@ -12,7 +12,6 @@ body {
   align-items: center;
   min-height: 100vh;
 }
-
 .app-container {
   background: #16213e;
   border-radius: 16px;
@@ -156,7 +155,6 @@ header p {
   margin: auto;
   overflow: hidden;
 }
-
 .falling-word {
   position: absolute;
   top: 0;
@@ -167,7 +165,6 @@ header p {
   user-select: none;
   white-space: nowrap;
 }
-
 /* Definition display */
 .definition-display {
   margin-top: 10px;
@@ -175,7 +172,6 @@ header p {
   color: #eee;
   text-align: center;
 }
-
 /* Typing input */
 #typingInput {
   width: 100%;
@@ -190,7 +186,6 @@ header p {
   outline: none;
   margin-bottom: 1rem;
 }
-
 /* Stats */
 .stats {
   display: flex;
@@ -199,7 +194,6 @@ header p {
   margin-bottom: 1rem;
   font-size: 1.1rem;
 }
-
 /* Test report */
 .test-report {
   margin-top: 1rem;
@@ -210,7 +204,6 @@ header p {
   white-space: pre-wrap;
   color: #ced6e0;
 }
-
 /* End test button */
 #endTestBtn {
   background: #e94560;

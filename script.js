@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Elements
-  const startModal = document.getElementById('startModal'); // Optional, if you have modal overlay
   const confirmStart = document.getElementById('confirmStart');
   const typingTestSection = document.getElementById('typingTest');
   const fallingWordDiv = document.getElementById('fallingWord');
@@ -13,15 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const endTestBtn = document.getElementById('endTestBtn');
   const testReport = document.getElementById('testReport');
 
-  // Example vocab, replace with uploaded vocab from your system
+  // Your vocabulary array - replace or expand as needed
   const words = [
     { word: 'Algorithm', definition: 'A set of rules to solve a problem' },
     { word: 'Loop', definition: 'A structure that repeats code' },
-    { word: 'Variable', definition: 'A storage location in memory' },
-    { word: 'Function', definition: 'A reusable code block' },
+    { word: 'Variable', definition: 'A storage in memory' },
+    { word: 'Function', definition: 'A reusable code block' }
   ];
 
-  // Typing test variables
+  // Variables
   let currentWordIndex = 0;
   let totalTypedChars = 0;
   let correctTypedChars = 0;
@@ -29,33 +28,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const testDuration = 60; // seconds
   let timerInterval = null;
   let animationRequest = null;
-  let pos = 0;
-  const animationSpeed = 1; // pixels moved per frame
-  const pauseDuration = 1500; // ms pause at bottom
+  let fallingPos = 0;
+  const animationSpeed = 1; // px per frame
+  const pauseDuration = 1500; // ms
 
-  // Utility to create underscore word with first letter shown
-  function createUnderscores(word) {
-    return word[0] + '_'.repeat(word.length - 1);
+  // Create underscore with first letter revealed
+  function createUnderscores(w) {
+    return w[0] + '_'.repeat(w.length - 1);
   }
 
   function displayWordAndDefinition() {
     const currentWord = words[currentWordIndex];
     fallingWordDiv.textContent = createUnderscores(currentWord.word);
     definitionDiv.textContent = currentWord.definition;
-    pos = 0; // reset position
-    fallingWordDiv.style.top = pos + 'px';
+    fallingPos = 0; // reset position
+    fallingWordDiv.style.top = fallingPos + 'px';
   }
 
-  // Falling animation, recursive with pause
+  // Recursive fall with pause at bottom
   function fall() {
     const containerHeight = fallingContainer.clientHeight;
-    pos += animationSpeed;
-    fallingWordDiv.style.top = pos + 'px';
+    fallingPos += animationSpeed;
+    fallingWordDiv.style.top = fallingPos + 'px';
 
-    if (pos < containerHeight - 40) {
+    if (fallingPos < containerHeight - 40) {
       animationRequest = requestAnimationFrame(fall);
     } else {
-      // Pause at bottom, then move to next word
+      // Pause at bottom then move to next word
       setTimeout(() => {
         currentWordIndex = (currentWordIndex + 1) % words.length;
         displayWordAndDefinition();
@@ -64,21 +63,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Start the falling animation
   function startFallingWords() {
-    currentWordIndex = 0;
     displayWordAndDefinition();
     animationRequest = requestAnimationFrame(fall);
   }
 
-  // Stop falling animation
   function stopFallingWords() {
     if (animationRequest) cancelAnimationFrame(animationRequest);
   }
 
-  // Typing test logic similar to previous demos
+  // Timer and stats
   function startTypingTest() {
+    // Show test section
     typingTestSection.style.display = 'block';
+    // Initialize variables
     currentWordIndex = 0;
     totalTypedChars = 0;
     correctTypedChars = 0;
@@ -88,20 +86,18 @@ document.addEventListener('DOMContentLoaded', () => {
     testReport.style.display = 'none';
     endTestBtn.style.display = 'none';
 
+    // Start falling words
     displayWordAndDefinition();
     startFallingWords();
 
-    updateStats(0, 100, testDuration);
-    typingInput.focus();
-
+    // Start timer
     timerInterval = setInterval(() => {
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const timeLeft = testDuration - elapsed;
-
-      if (timeLeft <= 0) {
+      const remaining = testDuration - elapsed;
+      if (remaining <= 0) {
         endTypingTest();
       } else {
-        timeDisplay.textContent = `Time Left: ${timeLeft}s`;
+        timeDisplay.textContent = `Time Left: ${remaining}s`;
       }
     }, 500);
   }
@@ -112,34 +108,50 @@ document.addEventListener('DOMContentLoaded', () => {
     timeDisplay.textContent = `Time Left: ${timeLeft}s`;
   }
 
+  let lastTypedLength = 0;
+
   typingInput.addEventListener('input', () => {
     const currentWord = words[currentWordIndex].word;
-    const typed = typingInput.value;
+    let typed = typingInput.value;
 
-    totalTypedChars++;
-    let correctCount = 0;
-    for (let i = 0; i < typed.length; i++) {
-      if (typed[i] === currentWord[i]) correctCount++;
+    // Limit input to current word length
+    if (typed.length > currentWord.length) {
+      typed = typed.substr(0, currentWord.length);
+      typingInput.value = typed;
     }
-    correctTypedChars += correctCount - (correctTypedChars > 0 ? correctTypedChars : 0);
 
+    // Count total typed chars
+    totalTypedChars += typed.length - lastTypedLength;
+    lastTypedLength = typed.length;
+
+    // Count correct chars in current input
+    let correctInCurrent = 0;
+    for (let i = 0; i < typed.length; i++) {
+      if (typed[i] === currentWord[i]) correctInCurrent++;
+    }
+    correctTypedChars = correctInCurrent; 
+
+    // Next word if fully correct
     if (typed === currentWord) {
+      // Reset input
       typingInput.value = '';
-      // Go to next word & reset animation
+      lastTypedLength = 0;
+      
       currentWordIndex++;
       if (currentWordIndex >= words.length) {
         endTypingTest();
         return;
       }
+
       stopFallingWords();
       displayWordAndDefinition();
       startFallingWords();
     }
 
+    // WPM and accuracy
     const elapsedMinutes = (Date.now() - startTime) / 60000;
     const wpm = elapsedMinutes > 0 ? currentWordIndex / elapsedMinutes : 0;
     const accuracy = totalTypedChars > 0 ? (correctTypedChars / totalTypedChars) * 100 : 100;
-
     updateStats(Math.min(Math.round(wpm), 200), accuracy, Math.max(testDuration - Math.floor((Date.now() - startTime) / 1000), 0));
   });
 
@@ -157,9 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
     testReport.textContent = `Final Words Per Minute: ${finalWPM}\nFinal Accuracy: ${finalAccuracy}\nWords Typed: ${currentWordIndex} of ${words.length}`;
   }
 
-  // Start test on confirm start button click
+  // Initialize start button
   confirmStart.addEventListener('click', () => {
-    // Hide start panel content (if using modal, adjust accordingly)
     document.querySelector('.start-panel').style.display = 'none';
     startTypingTest();
   });

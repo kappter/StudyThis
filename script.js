@@ -1,3 +1,119 @@
+// Example Vocabulary for typing test - replace with uploaded vocab as needed
+const testVocab = [
+  'Algorithm', 'Loop', 'Variable', 'Function',
+  'Constant', 'Parameter', 'Array', 'Object',
+  'Class', 'Inheritance', 'Recursion', 'Syntax'
+];
+
+const typingTestSection = document.getElementById('typingTest');
+const wordDisplay = document.getElementById('wordDisplay');
+const typingInput = document.getElementById('typingInput');
+const wpmDisplay = document.getElementById('wpmDisplay');
+const accuracyDisplay = document.getElementById('accuracyDisplay');
+const timeDisplay = document.getElementById('timeDisplay');
+const endTestBtn = document.getElementById('endTestBtn');
+const testReport = document.getElementById('testReport');
+
+let currentWordIndex = 0;
+let totalTypedChars = 0;
+let correctTypedChars = 0;
+let startTime = null;
+let timerInterval = null;
+const testDuration = 60; // seconds
+
+function startTypingTest() {
+  typingTestSection.style.display = 'block';
+  currentWordIndex = 0;
+  totalTypedChars = 0;
+  correctTypedChars = 0;
+  startTime = Date.now();
+  typingInput.value = '';
+  typingInput.disabled = false;
+  testReport.style.display = 'none';
+  endTestBtn.style.display = 'none';
+
+  displayWord(testVocab[currentWordIndex]);
+  updateStats(0, 100, testDuration);
+  typingInput.focus();
+
+  timerInterval = setInterval(() => {
+    const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+    const timeLeft = testDuration - elapsedTime;
+
+    if (timeLeft <= 0) {
+      endTypingTest();
+    } else {
+      timeDisplay.textContent = `Time Left: ${timeLeft}s`;
+    }
+  }, 500);
+}
+
+function displayWord(word) {
+  wordDisplay.textContent = word;
+}
+
+function updateStats(wpm, accuracy, timeLeft) {
+  wpmDisplay.textContent = `WPM: ${wpm}`;
+  accuracyDisplay.textContent = `Accuracy: ${accuracy.toFixed(1)}%`;
+  timeDisplay.textContent = `Time Left: ${timeLeft}s`;
+}
+
+typingInput.addEventListener('input', () => {
+  const currentWord = testVocab[currentWordIndex];
+  const typed = typingInput.value;
+
+  totalTypedChars = totalTypedChars + 1;
+  // Count correct characters typed so far in the current word
+  let correctCharsInCurrent = 0;
+  for (let i = 0; i < typed.length; i++) {
+    if (typed[i] === currentWord[i]) correctCharsInCurrent++;
+  }
+  correctTypedChars = correctTypedChars + correctCharsInCurrent - (correctTypedChars > 0 ? correctTypedChars : 0);
+
+  // If the word matches exactly, move to next word
+  if (typed === currentWord) {
+    typingInput.value = '';
+    currentWordIndex++;
+    if (currentWordIndex >= testVocab.length) {
+      endTypingTest();
+    } else {
+      displayWord(testVocab[currentWordIndex]);
+    }
+  }
+
+  // Calculate WPM and accuracy
+  const elapsedMinutes = (Date.now() - startTime) / 60000;
+  const wordsTyped = currentWordIndex;
+  const wpm = elapsedMinutes > 0 ? wordsTyped / elapsedMinutes : 0;
+  const accuracy = totalTypedChars > 0 ? (correctTypedChars / totalTypedChars) * 100 : 100;
+
+  updateStats(Math.min(Math.round(wpm), 200), accuracy, Math.max(testDuration - Math.floor((Date.now() - startTime) / 1000), 0));
+});
+
+function endTypingTest() {
+  clearInterval(timerInterval);
+  typingInput.disabled = true;
+  wordDisplay.textContent = 'Test Complete!';
+  endTestBtn.style.display = 'inline-block';
+
+  const finalWPM = wpmDisplay.textContent.split(' ')[1];
+  const finalAccuracy = accuracyDisplay.textContent.split(' ')[1];
+
+  testReport.style.display = 'block';
+  testReport.textContent = `Final Words Per Minute: ${finalWPM}\nFinal Accuracy: ${finalAccuracy}\nWords Typed: ${currentWordIndex} of ${testVocab.length}`;
+}
+
+// You can call this function to start the test after user initiates it
+// For example:
+// startTypingTest();
+
+// Optionally hook start button from your UI
+document.getElementById('confirmStart').onclick = () => {
+  document.getElementById('startModal')?.style.setProperty('display', 'none');
+  startTypingTest();
+};
+
+
 // Lock navigation and handle modal interactions
 document.getElementById('typingBtn').addEventListener('click', () => {
   loadVocabPreview('typing');
